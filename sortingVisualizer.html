@@ -12,7 +12,8 @@
         <h1>Sorting Algorithm Visualizer</h1>
         <div class="header">
             <button id="generate">Generate Array</button>
-            <span id="array">Array Size</span><input type="range" min="2" max="400" value="10" class="slider" id="arraySize">
+            <span id="array">Array Size</span><input type="range" min="2" max="400" value="20" class="slider" id="arraySize">
+            <span id="array">Sort Delay</span><input type="range" min="0" max="10" value="1" class="slider" id="delaySlider">
             <div class="box">
                 <select>
                     <option>Bubble Sort</option>
@@ -22,8 +23,26 @@
                 </select>
             </div>
             <button id="sort">Sort!</button>
+            <div class="stats">
+                <div id="comparisonBox">Num Comparisons:
+                    <span id="comparisons">0</span>
+                </div>
+                <div id="swapBox">Num Swaps:
+                    <span id="swaps">0</span>
+                </div>
+            </div>
         </div>
         <div id="container">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
             <div class="bar"></div>
             <div class="bar"></div>
             <div class="bar"></div>

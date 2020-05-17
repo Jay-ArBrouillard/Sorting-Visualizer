@@ -110,3 +110,19 @@ button:hover {
     float: left;
     margin: 0px 1px;
 }
+
+.stats {
+    max-width: 100%;
+    text-align: center;
+    margin: 10px auto;
+}
+
+#comparisonBox {
+    display: inline-block;
+    width: 20%;
+}
+
+#swapBox {
+    display: inline-block;
+    width: 20%;
+}
