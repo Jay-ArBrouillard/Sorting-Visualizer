@@ -2,21 +2,39 @@
 var arr = generateArray(10);
 var bars = document.querySelectorAll('.bar');
 var slider = document.getElementById("arraySize");
-var barSpacing = 10
 const totalPixelWidth = document.getElementById('container').offsetWidth;
-setBarHeights(10, barSpacing)
+//Set the max array size based on size of the screen; capped at 1000
+setMaxArraySize()
+setBarHeights(10)
 
-slider.addEventListener('change', function() {
+slider.addEventListener('input', function() {
     var container = document.getElementById('container');
-    container.innerHTML = '';
-    for (var i = 0; i < slider.value; i++) {
-        addElement();
+    const numChildElem = container.childElementCount;
+    if (numChildElem < slider.value) {
+        while (container.childElementCount != slider.value) {
+            addElement();
+        }
     }
+    else {
+        while (container.childElementCount != slider.value) {
+            removeElement();
+        }
+    }
+    console.log(slider.value)
+
     arr = generateArray(slider.value);
-    //ŷ = -0.00444X + 4.6096
-    barSpacing = slider.value * .00444 + 4.6;
-    setBarHeights(slider.value, barSpacing)
+    setBarHeights(slider.value)
 });
+
+function setMaxArraySize() {
+    for (var i = 10; i < 1000; i++) {
+        var barWidth = (totalPixelWidth - i * 2) / i;
+        if (barWidth < 2.0) {
+            slider.max = i-1;
+            break;
+        }
+    }
+}
 
 function generateArray(num) {
     var arr = [];
@@ -40,16 +58,17 @@ function addElement() {
     p.appendChild(newElement);
 }
 
-function setBarHeights(numBars, barSpacing) {
+function removeElement() {
+    var list = document.getElementById('container');
+    list.removeChild(list.childNodes[0]);
+}
+
+function setBarHeights(numBars) {
     bars = document.querySelectorAll('.bar');
-    var width = (totalPixelWidth - (numBars * barSpacing * 2)) / numBars;
-    console.log(numBars)
-    console.log(width)
-    console.log(totalPixelWidth)
+    var width = (totalPixelWidth - (numBars * 2)) / numBars;
     for (var i = 0; i < numBars; i++) {
         bars[i].style.height = arr[i].toString()+"px";
         bars[i].style.width = width.toString()+"px";
-        bars[i].style.margin = "0px " + barSpacing.toString()+"px";
     }
 }
 
