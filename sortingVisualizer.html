@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Sorting Visualizer</title>
+        <link rel="stylesheet" href="sortingVisualizer.css" type="text/css">
+        <link rel="icon" href="https://banner2.kisspng.com/20180525/kr/kisspng-computer-icons-sorting-algorithm-download-5b08c079b2d025.2739480315273002177324.jpg">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+        </head>
+    <body>
+        <h1>Sorting Algorithm Visualizer</h1>
+        <div class="header">
+            <button id="generate">Generate Array</button>
+            <span id="array">Array Size</span><input type="range" min="2" max="100" value="10" class="slider" id="arraySize">
+            <div class="box">
+                <select>
+                    <option>Bubble Sort</option>
+                    <option>Insertion Sort</option>
+                    <option>Quicksort Sort</option>
+                    <option>Merge Sort</option>
+                </select>
+            </div>
+            <button id="sort">Sort!</button>
+        </div>
+        <div id="container">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+    </body>
+    <script type="text/javascript" src="sortingVisualizer.js"></script>
+</html>
