@@ -81,7 +81,7 @@ button:hover {
 }
 
 .box {
-    display: inline;
+    display: inline-block;
     margin-left: 10px;
 }
 
@@ -101,6 +101,7 @@ button:hover {
 #container {
     max-width: 100%;
     margin: 20px;
+    transform: translateY(-50%);
 }
 
 .bar {
@@ -119,10 +120,10 @@ button:hover {
 
 #comparisonBox {
     display: inline-block;
-    width: 20%;
+    width: 25%;
 }
 
 #swapBox {
     display: inline-block;
-    width: 20%;
+    width: 25%;
 }
