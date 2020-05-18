@@ -99,9 +99,8 @@ button:hover {
 
 
 #container {
-    max-width: 100%;
-    margin: 20px;
-    transform: translateY(-50%);
+    margin: 20px 20px;
+    text-align: center;
 }
 
 .bar {
@@ -116,6 +115,11 @@ button:hover {
     max-width: 100%;
     text-align: center;
     margin: 10px auto;
+}
+
+#arrAccessesBox {
+    display: inline-block;
+    width: 25%;
 }
 
 #comparisonBox {
