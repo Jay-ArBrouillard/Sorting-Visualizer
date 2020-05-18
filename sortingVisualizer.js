@@ -6,7 +6,7 @@ var delaySlider = document.getElementById('delaySlider');
 var generateBtn = document.getElementById('generate');
 var sortBtn = document.getElementById('sort');
 var comparisons = document.getElementById('comparisons');
-var swaps = document.getElementById('swaps');
+var accesses = document.getElementById('accesses');
 var selectionBox = document.getElementById('select');
 const totalPixelWidth = document.getElementById('container').offsetWidth;
 const sleep = (milliseconds) => {
@@ -35,13 +35,15 @@ delaySlider.addEventListener('input', function() {
 
 sortBtn.addEventListener('click', function() {
     const selection = selectionBox.options[selectionBox.selectedIndex].text;
-    console.log(selection)
     switch (selection) {
         case 'Bubble Sort':
             bubbleSort(arr);
             break;
         case 'Insertion Sort':
             insertionSort(arr);
+            break;
+        case 'Bogo Sort':
+            bogoSort(arr);
             break;
         default:
             console.log("Error")
@@ -121,17 +123,15 @@ async function bubbleSort(arr) {
     var isSorted = false;
     var lastUnsorted = arr.length-1;
     var numComparisons = 0
-    var numSwaps = 0
-    swaps.innerHTML = 0;
+    var numAccesses = 0
+    accesses.innerHTML = 0;
     comparisons.innerHTML = 0;
     while (!isSorted) {
         isSorted = true;
         for (var i = 0; i < lastUnsorted; i++) {
             bars[i].style.background = "red";
             bars[i+1].style.background = "red";
-            if (sortDelay > 0) {
-                await sleep(sortDelay)
-            }
+            if (sortDelay > 0) await sleep(sortDelay)
             if (arr[i] > arr[i+1]) {
                 swap(arr, i, i+1);
                 bars[i].parentNode.insertBefore(bars[i+1], bars[i]);
@@ -139,11 +139,9 @@ async function bubbleSort(arr) {
                 isSorted = false;
                 bars[i].style.background = "purple";
                 bars[i+1].style.background = "purple";
-                if (sortDelay > 0) {
-                    await sleep(sortDelay)
-                }
-                numSwaps++;
-                swaps.innerHTML = numberWithCommas(numSwaps);
+                if (sortDelay > 0) await sleep(sortDelay)
+                numAccesses += 2;
+                accesses.innerHTML = numberWithCommas(numAccesses);
             }
             bars[i].style.background = "steelblue";
             bars[i+1].style.background = "steelblue";
@@ -167,10 +165,11 @@ async function bubbleSort(arr) {
 async function insertionSort(arr) {
     var n = arr.length; 
     var numComparisons = 0;
-    var numSwaps = 0;
+    var numAccesses = 0;
     for (var i = 1; i < n; ++i) { 
         var key = arr[i]; 
         var j = i - 1;
+        numAccesses++;
         bars[i].style.background = "red";
         bars[j].style.background = "red";
         const savedJ = j;
@@ -181,9 +180,7 @@ async function insertionSort(arr) {
         while (j >= 0 && arr[j] > key) {
             bars[j].style.background = "purple";
             bars[j+1].style.background = "purple";
-            if (sortDelay > 0) {
-                await sleep(sortDelay)
-            }
+            if (sortDelay > 0) await sleep(sortDelay)
             bars[j].parentNode.insertBefore(bars[j+1], bars[j]);
             bars = document.querySelectorAll('.bar');
             bars[j].style.background = "green";
@@ -191,14 +188,16 @@ async function insertionSort(arr) {
             arr[j + 1] = arr[j]; 
             j = j - 1;
             numComparisons++;
-            numSwaps++;
+            numAccesses++;
             comparisons.innerHTML = numberWithCommas(numComparisons);
-            swaps.innerHTML = numberWithCommas(numSwaps);
+            accesses.innerHTML = numberWithCommas(numAccesses);
         }
 
         bars[i].style.background = "green";
         bars[savedJ].style.background = "green";
-        arr[j + 1] = key; 
+        arr[j + 1] = key;
+        numAccesses++;
+        accesses.innerHTML = numberWithCommas(numAccesses);
     }
 }
 
@@ -210,4 +209,49 @@ function swap(arr, i, j) {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+async function bogoSort() {
+    var n = arr.length; 
+    var numComparisons = 0;
+    var numAccesses = 0;
+    shuffle = function() {
+         for (var i= 1; i < n; i++) {
+            swap(arr, i, Math.floor(Math.random()*n)); 
+            numAccesses += 4;
+            accesses.innerHTML = numberWithCommas(numAccesses);
+         }
+    };
+
+    isSorted = function(){
+        for(var i= 1 ; i < n; i++) {
+            numComparisons++;
+            numAccesses += 2;
+            comparisons.innerHTML = numberWithCommas(numComparisons);
+            accesses.innerHTML = numberWithCommas(numAccesses);
+            if (arr[i-1] > arr[i]) {
+                return false; 
+            }
+            else {
+                bars[i-1].style.background = "green";
+                bars[i].style.background = "green";
+            }
+        }
+        return true;
+    }
+
+    var sorted = false;
+    while(sorted == false){
+        shuffle();
+        setBarHeights(n);
+        sorted = isSorted();
+        if (sortDelay > 0) await sleep(sortDelay)
+        if (!sorted) {
+            var i = 0;
+            while (i < n && bars[i].style.background == "green") {
+                bars[i].style.background = "steelblue";
+                i++;
+            }
+        }
+    }
 }
