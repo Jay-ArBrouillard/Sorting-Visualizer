@@ -15,6 +15,7 @@ const sleep = (milliseconds) => {
 }
 var sortRunning = false;
 var sortDelay = 1 //ms
+initialize()
 
 function initialize() {
     setupSliders();
@@ -76,6 +77,13 @@ function setupButtons() {
             case 'Selection Sort':
                 selectionSort();
                 break;
+            case 'Quicksort Sort':
+                const runQuickSort = async() => { 
+                    await quickSort(arr, 0, arr.length - 1);
+                    setAllBarsGreen(true);
+                }
+                runQuickSort();
+                break;
             default:
                 console.log("Error")
         }
@@ -132,5 +140,3 @@ function setBarHeights(numBars) {
         bars[i].style.width = width.toString()+"px";
     }
 }
-
-initialize()
