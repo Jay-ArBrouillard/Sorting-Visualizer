@@ -107,6 +107,15 @@ function setupButtons() {
                 }
                 runQuickSort();
                 break;
+            case 'Merge Sort':
+                startWatch();
+                const runMergeSort = async() => { 
+                    await mergeSort();
+                    stopWatch();
+                    setAllBarsGreen(true);
+                }
+                runMergeSort();
+                break;
             default:
                 console.log("Error")
         }

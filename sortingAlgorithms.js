@@ -208,6 +208,7 @@ async function partition(arr, start, end) {
         if (arr[i] < pivotValue) {
             bars[pivotIndex].style.background = "purple";
             bars[i].style.background = "purple";
+            if (useDelay) await sleep(sortDelay);
             bars[pivotIndex].style.background = "steelblue";
             bars[i].style.background = "steelblue";
             swapElements(bars[i], bars[pivotIndex]);
@@ -227,7 +228,65 @@ async function partition(arr, start, end) {
     return pivotIndex;
 }
 
+//////////////////////////////////MERGE SORT/////////////////////////////////////////////////
+//Iterative version
+async function mergeSort(){
+    var sorted = arr.slice(),
+    n = sorted.length,
+    buffer = new Array(n);
 
+    for (var size = 1; size < n; size *= 2) {
+        for (var leftStart = 0; leftStart < n; leftStart += 2*size) {
+            var left = leftStart,
+                right = Math.min(left + size, n),
+                leftLimit = right,
+                rightLimit = Math.min(right + size, n),
+                i = left;
+            if (bars[rightLimit] !== undefined) {
+                bars[leftStart].style.background = "purple";
+                bars[rightLimit].style.background = "purple";
+            }
+            else {
+                bars[leftStart].style.background = "purple";
+                bars[n-1].style.background = "purple";
+            }
+            while (left < leftLimit && right < rightLimit) {
+                if (sorted[left] <= sorted[right]) {
+                    bars[i].style.height = sorted[left]+"px";
+                    buffer[i++] = sorted[left++];
+                } else {
+                    bars[i].style.height = sorted[right]+"px";
+                    buffer[i++] = sorted[right++];
+                }
+                await sleep(sortDelay);
+            }
+            while (left < leftLimit) {
+                bars[i].style.height = sorted[left]+"px";
+                buffer[i++] = sorted[left++];
+                await sleep(sortDelay);
+            }
+            while (right < rightLimit) {
+                bars[i].style.height = sorted[right]+"px";
+                buffer[i++] = sorted[right++];
+                await sleep(sortDelay);
+            }
+
+            if (bars[rightLimit] !== undefined) {
+                bars[leftStart].style.background = "steelblue";
+                bars[rightLimit].style.background = "steelblue";
+            }
+            else {
+                bars[leftStart].style.background = "steelblue";
+                bars[n-1].style.background = "steelblue";
+            }
+        }
+        var temp = sorted,
+            sorted = buffer,
+            buffer = temp;
+    }   
+}
+
+//////////////////////////////////HELPER METHODS//////////////////////////////////////////////
 function swapElements(obj1, obj2) {
     // create marker element and insert it where obj1 is
     var temp = document.createElement("div");
