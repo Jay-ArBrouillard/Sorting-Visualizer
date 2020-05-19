@@ -331,6 +331,88 @@ async function gnomeSort() {
         bars[i-1].style.background = "steelblue";
     }
 }
+//////////////////////////////////COCKTAIL SORT///////////////////////////////////////////////
+async function cocktailSort() {
+    var swapped = true; 
+    var start = 0; 
+    var end = arr.length; 
+
+    while (swapped == true) { 
+        // reset the swapped flag on entering the 
+        // loop, because it might be true from a 
+        // previous iteration. 
+        swapped = false; 
+
+        // loop from bottom to top same as 
+        // the bubble sort 
+        for (var i = start; i < end - 1; ++i) { 
+            bars[i].style.background = "red";
+            bars[i+1].style.background = "red";
+            if (sortDelay > 0) await sleep(sortDelay);
+            if (arr[i] > arr[i + 1]) { 
+                bars[i].style.background = "purple";
+                bars[i+1].style.background = "purple";
+                if (sortDelay > 0) await sleep(sortDelay);
+                bars[i].style.background = "steelblue";
+                bars[i+1].style.background = "steelblue";
+                bars[i].parentNode.insertBefore(bars[i+1], bars[i]);
+                bars = document.querySelectorAll('.bar');
+
+                swap(arr, i, i+1)
+                swapped = true; 
+            }
+            bars[i].style.background = "steelblue";
+            bars[i+1].style.background = "steelblue";
+        }
+
+        if (sortDelay > 0) await sleep(sortDelay);
+        if (bars[end] === undefined) {
+            bars[end-start-1].style.background = "green";
+        }
+        else {
+            bars[end-1].style.background = "green";
+        }
+
+        // if nothing moved, then array is sorted. 
+        if (swapped == false) 
+            break; 
+        swapped = false; 
+        end--; 
+
+        // from top to bottom, doing the 
+        // same comparison as in the previous stage 
+        for (var i = end - 2; i >= start; i--) { 
+            bars[i].style.background = "red";
+            bars[i+1].style.background = "red";
+            if (sortDelay > 0) await sleep(sortDelay);
+            if (arr[i] > arr[i + 1]) { 
+                bars[i].style.background = "purple";
+                bars[i+1].style.background = "purple";
+                if (sortDelay > 0) await sleep(sortDelay);
+                bars[i].style.background = "steelblue";
+                bars[i+1].style.background = "steelblue";
+                bars[i].parentNode.insertBefore(bars[i+1], bars[i]);
+                bars = document.querySelectorAll('.bar');
+
+                swap(arr, i, i+1);
+                swapped = true; 
+            } 
+            bars[i].style.background = "steelblue";
+            bars[i+1].style.background = "steelblue";
+        } 
+        bars[start].style.background = "green";
+        start++;
+    }
+
+    //Color middle bars green alternating
+    if (end == arr.length) end--; //Case when array is already sorted
+    for (var i = start; i < end; i++) {
+        bars[start+end-i].style.background = "green";
+        if (sortDelay > 0) await sleep(sortDelay);
+        bars[i].style.background = "green";
+    }
+
+}
 
 //////////////////////////////////HELPER METHODS//////////////////////////////////////////////
 function swapElements(obj1, obj2) {

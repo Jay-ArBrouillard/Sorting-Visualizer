@@ -136,6 +136,15 @@ function setupButtons() {
                 }
                 runGnomeSort();
                 break;
+            case 'Cocktail Sort':
+                startWatch();
+                const runCocktailSort = async() => { 
+                    await cocktailSort();
+                    stopWatch();
+                    buttonsAndSliderON();
+                }
+                runCocktailSort();
+                break;
             default:
                 console.log("Error")
         }
