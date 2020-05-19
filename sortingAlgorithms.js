@@ -193,6 +193,8 @@ async function quickSort(arr, start, end) {
 async function partition(arr, start, end) {
     let pivotValue = arr[end];
     let pivotIndex = start;
+    var numAccesses = removeCommas(accesses.innerHTML);
+    var numComparisons = removeCommas(comparisons.innerHTML);
     for (let i = start; i < end; i++) {
         bars[pivotIndex].style.background = "red";
         bars[i].style.background = "red";
@@ -206,16 +208,25 @@ async function partition(arr, start, end) {
             bars = document.querySelectorAll('.bar');
             await swap(arr, i, pivotIndex);
             pivotIndex++;
+            numAccesses = removeCommas(accesses.innerHTML) + 4;
+            numComparisons = removeCommas(comparisons.innerHTML) + 1;
         }
         if (sortDelay > 0) await sleep(sortDelay);
         bars[pivotIndex].style.background = "steelblue";
         bars[i].style.background = "steelblue";
+
+        accesses.innerHTML = numberWithCommas(numAccesses);
+        comparisons.innerHTML = numberWithCommas(numComparisons);
     }
     if (sortDelay > 0) await sleep(sortDelay);
     swapElements(bars[pivotIndex], bars[end]);
     bars = document.querySelectorAll('.bar');
 
     await swap(arr, pivotIndex, end);
+    numAccesses = removeCommas(accesses.innerHTML) + 4;
+    numComparisons = removeCommas(comparisons.innerHTML) + 1;
+    accesses.innerHTML = numberWithCommas(numAccesses);
+    comparisons.innerHTML = numberWithCommas(numComparisons);
     return pivotIndex;
 }
 
@@ -225,6 +236,8 @@ async function mergeSort(){
     var sorted = arr.slice(),
     n = sorted.length,
     buffer = new Array(n);
+    var numAccesses = 0;
+    var numComparisons = 0;
 
     for (var size = 1; size < n; size *= 2) {
         for (var leftStart = 0; leftStart < n; leftStart += 2*size) {
@@ -249,6 +262,10 @@ async function mergeSort(){
                     bars[i].style.height = sorted[right]+"px";
                     buffer[i++] = sorted[right++];
                 }
+                numAccesses += 4;
+                numComparisons++;
+                comparisons.innerHTML = numberWithCommas(numComparisons);
+                accesses.innerHTML = numberWithCommas(numAccesses);
                 if (sortDelay > 0) await sleep(sortDelay);
             }
             while (left < leftLimit) {
@@ -259,6 +276,7 @@ async function mergeSort(){
             while (right < rightLimit) {
                 bars[i].style.height = sorted[right]+"px";
                 buffer[i++] = sorted[right++];
+                numAccesses++;
                 if (sortDelay > 0) await sleep(sortDelay);
             }
 
@@ -270,11 +288,48 @@ async function mergeSort(){
                 bars[leftStart].style.background = "steelblue";
                 bars[n-1].style.background = "steelblue";
             }
+
+            accesses.innerHTML = numberWithCommas(numAccesses);
         }
         var temp = sorted,
             sorted = buffer,
             buffer = temp;
     }   
+}
+//////////////////////////////////GNOME SORT/////////////////////////////////////////////////
+async function gnomeSort() {
+    var numAccesses = 0;
+    var numComparisons = 0;
+    moveBack = async (i) => {
+        for(; i > 0 && arr[i-1] > arr[i]; i--)
+        {
+            bars[i].style.background = "purple";
+            bars[i-1].style.background = "purple";
+            if (sortDelay > 0) await sleep(sortDelay);
+            bars[i].style.background = "steelblue";
+            bars[i-1].style.background = "steelblue";
+            bars[i-1].parentNode.insertBefore(bars[i], bars[i-1]);
+            bars = document.querySelectorAll('.bar');
+            swap(arr, i, i-1);
+            numComparisons += 2;
+            numAccesses += 6;
+            comparisons.innerHTML = numberWithCommas(numComparisons);
+            accesses.innerHTML = numberWithCommas(numAccesses);
+        }
+    }
+
+    for (var i = 1; i < arr.length; i++) {
+        numComparisons++;
+        bars[i].style.background = "red";
+        bars[i-1].style.background = "red";
+        if (sortDelay > 0) await sleep(sortDelay);
+        if (arr[i-1] > arr[i]) 
+        {
+            await moveBack(i);
+        }
+        bars[i].style.background = "steelblue";
+        bars[i-1].style.background = "steelblue";
+    }
 }
 
 //////////////////////////////////HELPER METHODS//////////////////////////////////////////////
@@ -298,6 +353,10 @@ async function swap(arr, i, j) {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function removeCommas(str) {
+    return parseInt(str.replace(/,/g, ''), 10)
 }
 
 async function setAllBarsGreen(useDelay) {

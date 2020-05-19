@@ -106,6 +106,9 @@ function setupButtons() {
             case 'Quicksort Sort':
                 startWatch();
                 const runQuickSort = async() => { 
+                    //Need to set to 0 since quicksort using async recursion
+                    comparisons.innerHTML = 0;
+                    accesses.innerHTML = 0;
                     await quickSort(arr, 0, arr.length - 1);
                     stopWatch();
                     setAllBarsGreen(true);
@@ -122,6 +125,16 @@ function setupButtons() {
                     buttonsAndSliderON();
                 }
                 runMergeSort();
+                break;
+            case 'Gnome Sort':
+                startWatch();
+                const runGnomeSort = async() => { 
+                    await gnomeSort();
+                    stopWatch();
+                    setAllBarsGreen(true);
+                    buttonsAndSliderON();
+                }
+                runGnomeSort();
                 break;
             default:
                 console.log("Error")
