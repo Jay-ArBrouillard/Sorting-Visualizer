@@ -8,8 +8,8 @@ var comparisons = document.getElementById('comparisons');
 var accesses = document.getElementById('accesses');
 var selectionBox = document.getElementById('select');
 var numElements = document.getElementById('elements');
+var barHeight = 700;
 const totalPixelWidth = document.getElementById('container').offsetWidth;
-const totalPixelHeight = document.getElementById('container').offsetWidth;
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
@@ -184,8 +184,9 @@ function setMaxArraySize() {
 
 function generateArray(num) {
     var arr = [];
+    console.log("generate array with height", barHeight)
     for (var i = 0; i < num; i++) {
-        arr.push(getRandomIntegerRange(5,750));
+        arr.push(getRandomIntegerRange(5,barHeight));
     }
     return arr;
 }
@@ -216,4 +217,24 @@ function setBarHeights(numBars) {
         bars[i].style.height = arr[i].toString()+"px";
         bars[i].style.width = width.toString()+"px";
     }
+
+    if (checkScrollBarVisible() && barHeight > 200) {
+        barHeight -= 10;
+        arr = generateArray(bars.length);
+        setBarHeights(bars.length);
+    }
+}
+
+function checkScrollBarVisible() {
+    bars[0].style.height = barHeight;
+    var hasScrollbar = false;
+
+    if (typeof window.innerWidth === 'number') {
+        hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+    }
+    else {
+        hasScrollbar = hasScrollbar || document.documentElement.scrollHeight > document.documentElement.clientHeight;
+    }
+
+    return hasScrollbar;
 }
