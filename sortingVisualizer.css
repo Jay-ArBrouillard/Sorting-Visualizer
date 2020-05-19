@@ -7,6 +7,24 @@
     font-size: 20px;
 }
 
+body {
+    background: linear-gradient(-80deg, #e0d0cb, #d9c1ca, #b1c9c4);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 h1 {
     background: #101010;
     color: white;
@@ -135,4 +153,14 @@ button:hover {
 #stopwatch {
     display: inline-block;
     width: 25%;
+}
+
+.active {
+    color: white;
+    cursor: pointer;
+}
+
+.notActive {
+    color: red;
+    cursor: not-allowed;
 }

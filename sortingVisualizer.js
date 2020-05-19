@@ -65,12 +65,14 @@ function setupButtons() {
     sortBtn.addEventListener('click', function() {
         const selection = selectionBox.options[selectionBox.selectedIndex].text;
         resetWatch();
+        buttonsAndSliderOFF();
         switch (selection) {
             case 'Bubble Sort':
                 startWatch();
                 const runBubbleSort = async() => { 
                     await bubbleSort();
                     stopWatch();
+                    buttonsAndSliderON();
                 }
                 runBubbleSort();
                 break;
@@ -79,6 +81,7 @@ function setupButtons() {
                 const runInsertionSort = async() => { 
                     await insertionSort();
                     stopWatch();
+                    buttonsAndSliderON();
                 }
                 runInsertionSort();
                 break;
@@ -87,6 +90,7 @@ function setupButtons() {
                 const runBogoSort = async() => { 
                     await bogoSort();
                     stopWatch();
+                    buttonsAndSliderON();
                 }
                 runBogoSort();
                 break;
@@ -95,6 +99,7 @@ function setupButtons() {
                 const runSelectionSort = async() => { 
                     await selectionSort();
                     stopWatch();
+                    buttonsAndSliderON();
                 }
                 runSelectionSort();
                 break;
@@ -104,6 +109,7 @@ function setupButtons() {
                     await quickSort(arr, 0, arr.length - 1);
                     stopWatch();
                     setAllBarsGreen(true);
+                    buttonsAndSliderON();
                 }
                 runQuickSort();
                 break;
@@ -113,6 +119,7 @@ function setupButtons() {
                     await mergeSort();
                     stopWatch();
                     setAllBarsGreen(true);
+                    buttonsAndSliderON();
                 }
                 runMergeSort();
                 break;
@@ -125,7 +132,23 @@ function setupButtons() {
         setBarHeights(slider.value)
     });
 }
+function buttonsAndSliderON() {
+    generateBtn.className = "active";
+    sortBtn.className = "active";
+    slider.className = "active, slider";
+    generateBtn.disabled = false;
+    sortBtn.disabled = false;
+    slider.disabled = false;
+}
 
+function buttonsAndSliderOFF() {
+    generateBtn.className = "notActive";
+    sortBtn.className = "notActive";
+    slider.className = "notActive, slider";
+    generateBtn.disabled = true;
+    sortBtn.disabled = true;
+    slider.disabled = true;
+}
 
 function setMaxArraySize() {
     for (var i = 10; i < 1000; i++) {
