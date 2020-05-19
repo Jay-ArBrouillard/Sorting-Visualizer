@@ -64,22 +64,45 @@ function setupSliders() {
 function setupButtons() {
     sortBtn.addEventListener('click', function() {
         const selection = selectionBox.options[selectionBox.selectedIndex].text;
+        resetWatch();
         switch (selection) {
             case 'Bubble Sort':
-                bubbleSort();
+                startWatch();
+                const runBubbleSort = async() => { 
+                    await bubbleSort();
+                    stopWatch();
+                }
+                runBubbleSort();
                 break;
             case 'Insertion Sort':
-                insertionSort();
+                startWatch();
+                const runInsertionSort = async() => { 
+                    await insertionSort();
+                    stopWatch();
+                }
+                runInsertionSort();
                 break;
             case 'Bogo Sort':
-                bogoSort();
+                startWatch();
+                const runBogoSort = async() => { 
+                    await bogoSort();
+                    stopWatch();
+                }
+                runBogoSort();
                 break;
             case 'Selection Sort':
-                selectionSort();
+                startWatch();
+                const runSelectionSort = async() => { 
+                    await selectionSort();
+                    stopWatch();
+                }
+                runSelectionSort();
                 break;
             case 'Quicksort Sort':
+                startWatch();
                 const runQuickSort = async() => { 
                     await quickSort(arr, 0, arr.length - 1);
+                    stopWatch();
                     setAllBarsGreen(true);
                 }
                 runQuickSort();

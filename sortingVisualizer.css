@@ -131,3 +131,8 @@ button:hover {
     display: inline-block;
     width: 25%;
 }
+
+#stopwatch {
+    display: inline-block;
+    width: 25%;
+}
